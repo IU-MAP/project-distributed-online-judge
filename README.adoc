@@ -1,0 +1,157 @@
+// ------------------------------------------
+//  Created by Jean-Michel Bruel on 2021-03.
+//  Copyright (c) 2021 IRIT/U. Toulouse. All rights reserved.
+// ------------------------------------------
+= Innopolis University MAP-S21 Project
+Jean-Michel Bruel <jbruel@gmail.com>
+v2021.1, {localdate}
+:status: bottom
+:inclusion:
+:experimental:
+// ------------------------------------------
+:icons: font
+:imagesdir: images
+//:prof:
+:bitlysiteurl: https://jmbruel.github.io/InnopolisModernApplicationProduction/
+
+:csv: https://fr.wikipedia.org/wiki/Comma-separated_values[CSV]
+:json: https://en.wikipedia.org/wiki/JSON[JSON]
+:must: MUST
+:should: SHOULD
+:could: COULD
+
+:dronology: https://dronology.info[Dronology]
+
+// Specific to GitHub
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+
+== Context
+
+This project consists of handling traceability links between requirements and development artifacts.
+
+.Example of traceability in the Dronology project (source https://dronology.info/traceability/[here])
+image::traceability-dronology.png[Traceability, link="https://dronology.info/traceability/"]
+
+== Requirements
+
+Since you have seven weeks to develop this project by applying the Scrum method, here is the planning:
+
+- a first version (V1.0) at the end of the 4th Sprint
+- a second version (V2.0) at the end of the 7th Sprint
+
+[NOTE]
+=====
+- No special instructions on the GUI (model and prototypes welcome)
+- No instructions on techno (java is not mandatory)
+=====
+
+== Initial Product Backlog (last update: 2021-03-27)
+
+===  Initial Client Features for V1
+
+The initial functionalities requested are as follows:
+
+. Define the requirements
+.. Create / Delete / Modify a requirement
+.. List the requirements
+
+. Traceability links
+.. Display all the artifacts
+.. Allow navigating from one artifact to the related ones
+.. Add a missing dependability link between 2 artifacts manually
+
+. Tools API
+.. Use GitHub API to extract dependability links automatically
+.. Use external APIs (e.g., Google) to manage dependability links with some existing set of requirements
+
+NOTE: For V1, the requirements (and artifacts) will have minimal attributes (e.g., ID, Description, Status).
+
+:numbered!:
+==== Initial User Stories examples
+
+WARNING: These USs are only examples to start your Product Backlog, but the above customer requirements should be translated into USs. Do not hesitate to speak with the client (me!) for clarification.
+
+- As a stakeholder, I want to manage requirements - business priority *{must}*.
+
+- As a developer, I want to link User Stories to requirements - business priority *{must}*.
+
+- As a project leader, I want to get access to all the artifacts (requirements, US, code, tests, ...) with their traceability links - business priority *{must}*.
+
+- As a project leader, I want to get access to some supervision dashboard (see examples below) - business priority *{should}*.
+
+- As a coder, I want to have as much automated links as possible - business priority *{should}*.
+
+=== Additional functionalities (Product Backlog) V2
+
+All the features of version V1, plus:
+
+- Stakeholders can define additional attributes for requirements
+- Project leader can define new kinds of artifacts
+- Traceability links can be refined to more than just "father/son"
+
+== Illustrations from an existing application
+
+A dataset example is available:
+
+- as a {JSON} file http://sarec.nd.edu/dronology/datasets/01/dronologydataset01.json[here] 
+- as an interactive view of the data http://sarec.nd.edu/dronology/datasets/01/
+[here]
+
+.Example of an interactive view of the data (source http://sarec.nd.edu/dronology/datasets/01/[here])
+image::interactive.png[interactive, link="http://sarec.nd.edu/dronology/datasets/01/"]
+
+
+.Example of dashboard (source https://dronology.info/dronology/status/[here])
+image::dashboard.png[Dashboard, link="https://dronology.info/dronology/status/"]
+
+
+== Assessment and rating
+
+Here is the provisional scale:
+
+[align="center", width="90%", cols="6,^1", options="header"]
+|==========================================================
+| Heading | weight
+| Respect for the Scrum method | 20%
+| "Professional" character of dev | 20%
+| Successive deliveries | 20%
+| Tests / Documentations / Readme / wiki | 20%
+| Code and application quality | 10%
+| Final Customer Satisfaction | 10%
+| _Bonus_ (usability aspects) | _+10%_
+|==========================================================
+
+Each Sprint (week) will be evaluated by the TD teacher who had you at your last TP slot.
+The evaluation will relate to 6 criteria and will take the following form:
+
+.Example of weekly evaluation
+image::spider.png[width=60%]
+
+These six criteria are taken from a course on software quality from my Bordeaux colleague Xavier Blanc (https://github.com/xblanc33/QualiteDev):
+
+[WARNING]
+====
+Sorry for the French in the following explanations:
+
+issues:: the way the goals have been captured (more details link:https://github.com/xblanc33/QualiteDev/blob/master/issue[here])
+
+tasks:: the development tasks related to the issues and how easy it is to get from one to the other link:https://github.com/xblanc33/QualiteDev/blob/master/tache[here])
+
+tests:: verification activities (more details link:https://github.com/xblanc33/QualiteDev/blob/master/test[here])
+source code:: quality attributes (more details link:https://github.com/xblanc33/QualiteDev/blob/master/code[here])
+documentation:: technical and user documentations (more details link:https://github.com/xblanc33/QualiteDev/blob/master/doc[here])
+release:: build, automated testing, deploy (more details link:https://github.com/xblanc33/QualiteDev/blob/master/release[here])
+====
+
+:numbered!:
+== Useful links
+
+- The materials for the course: http://bit.ly/innopolis-map
+- The inspiring project: {dronology}

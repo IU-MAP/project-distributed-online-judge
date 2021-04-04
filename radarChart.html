@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://www.chartjs.org/samples/latest/charts/radar.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Radar Chart</title>
+	<script async="" src="./RadarChart_files/analytics.js"></script><script src="./RadarChart_files/Chart.min.js"></script>
+	<script src="./RadarChart_files/utils.js"></script>
+	<style>
+		canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+	</style>
+<meta name="milesbooster-extension" data="true"><style type="text/css">/* Chart.js */
+@keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style>
+<script src="data.js" ></script>
+
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed="">
+	<div style="width:40%"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		<canvas id="canvas" style="display: block; height: 333px; width: 666px;" width="1332" height="666" class="chartjs-render-monitor"></canvas>
+	</div>
+	<script>
+		var color = Chart.helpers.color;
+
+		var config = {
+			type: 'radar',
+			data: {
+				labels: [['User', 'Value'], ['US', 'Tasks'], 'Documentation', ['Tests', 'Quality'], ['Build/CI','Release']],
+				datasets: [{
+					label: 'Sprint0',
+					backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
+					borderColor: window.chartColors.red,
+					pointBackgroundColor: window.chartColors.red,
+					data: [
+						GRADING.val[0],
+						GRADING.us[0],
+						GRADING.doc[0],
+						GRADING.test[0],
+						GRADING.build[0]
+					]
+				}, {
+					label: 'Sprint1',
+					backgroundColor: color(window.chartColors.yellow).alpha(0.2).rgbString(),
+					borderColor: window.chartColors.yellow,
+					pointBackgroundColor: window.chartColors.yellow,
+					data: [
+						GRADING.val[1],
+						GRADING.us[1],
+						GRADING.doc[1],
+						GRADING.test[1],
+						GRADING.build[1]
+					]
+				}, {
+					label: 'Sprint2',
+					backgroundColor: color(window.chartColors.green).alpha(0.2).rgbString(),
+					borderColor: window.chartColors.green,
+					pointBackgroundColor: window.chartColors.green,
+					data: [
+						GRADING.val[2],
+						GRADING.us[2],
+						GRADING.doc[2],
+						GRADING.test[2],
+						GRADING.build[2]
+					]
+				}, {
+					label: 'Sprint3',
+					backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+					borderColor: window.chartColors.blue,
+					pointBackgroundColor: window.chartColors.blue,
+					data: []
+				}, {
+					label: 'Sprint4',
+					backgroundColor: color(window.chartColors.orange).alpha(0.2).rgbString(),
+					borderColor: window.chartColors.orange,
+					pointBackgroundColor: window.chartColors.orange,
+					data: []
+				}, {
+					label: 'Sprint5',
+					backgroundColor: color(window.chartColors.purple).alpha(0.2).rgbString(),
+					borderColor: window.chartColors.purple,
+					pointBackgroundColor: window.chartColors.purple,
+					data: []
+				}]
+			},
+			options: {
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'Quality Assessment'
+				},
+				scale: {
+					ticks: {
+						beginAtZero: true,
+						max: 100
+					}
+				}
+			}
+		};
+
+		window.onload = function() {
+			window.myRadar = new Chart(document.getElementById('canvas'), config);
+		};
+
+
+	</script>
+
+
+
+</body></html>
