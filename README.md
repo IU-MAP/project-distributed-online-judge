@@ -25,6 +25,8 @@ The application cluster consists of 2 types of network nodes:
 
 The server hosts the platform interface to contestants along with all units related to solution testing (test cases, checker, validator, interactor, etc). When the server accepts a solution from a user, it forwards this solution along with testing units (which could be cached) to a volunteer. The client performs the testing protocol and reports the results back to the server, which in turn reports the result back to the contestant. All communication channels (contestant-server, server-volunteer) are to be implemented on top of HTTPS.
 
+![Test Image 1](images/structure.PNG)
+
 ## Technology stack
 
 **Frontend**
