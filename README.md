@@ -2,6 +2,12 @@
 
 Distributed Online Judge is a distributed computing application for testing programs against test cases in programming competitions.
 
+## Team members
+
+- Khaled Ismaeel (BS18-SB)
+- Trang Nguyen (BS18-DS-01)
+- Marko Pezer (BS18-SE-01)
+
 ## Why yet another online judge?
 
 Hosting a programming competition is a resource-intensive task. In some rounds on [Codeforces](codeforces.com) the judging servers receive an excess of 100,000 solutions to test, each of which runs on around 50 test cases taking a matter of seconds and sometimes minutes to complete. As a result, competitive programming platforms often require high performance servers to accommodate the huge workload.
