@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  
+  ul
+    each solution in solution_list
+      li 
+        a(href=solution.url) #{solution._id}
+
+    else
+      li There are no solutions.
