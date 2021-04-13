@@ -7,6 +7,7 @@ Distributed Online Judge is a distributed computing application for testing prog
 - Khaled Ismaeel (BS18-SB)
 - Trang Nguyen (BS18-DS-01)
 - Marko Pezer (BS18-SE-01)
+- Kerim Kochekov (BS18-DS-02)
 
 ## Why yet another online judge?
 
