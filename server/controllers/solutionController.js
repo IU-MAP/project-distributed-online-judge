@@ -68,11 +68,12 @@ exports.solution_create_post = [
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
+    console.log(errors);
 
     // Create a solution object with escaped and trimmed data.
     var solution = new Solution({ problem: req.body.problem });
 
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty() || !req.files || !req.files.file) {
       // There are errors. Render form again with sanitized values/error messages.
 
       Problem.find({}, "title").exec(function (err, list_problems) {
@@ -89,13 +90,26 @@ exports.solution_create_post = [
       return;
     } else {
       // Data from form is valid. Save solution.
-      solution.save(function (err) {
-        if (err) {
-          return next(err);
+      async.parallel(
+        [
+          function (callback) {
+            req.files.file.mv(
+              `${__dirname}/../public/uploads/${solution._id}`,
+              callback
+            );
+          },
+          function (callback) {
+            solution.save(callback);
+          },
+        ],
+        function (err) {
+          if (err) {
+            return next(err);
+          }
+          // Successful - redirect to new problem record.
+          res.redirect(solution.url);
         }
-        // Successful - redirect to new problem record.
-        res.redirect(solution.url);
-      });
+      );
     }
   },
 ];

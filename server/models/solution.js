@@ -20,7 +20,7 @@ SolutionSchema.virtual("url").get(function () {
 
 // Virtual for this Solution file's URL.
 SolutionSchema.virtual("file").get(function () {
-  return "/file/solution/" + this._id;
+  return "/uploads/" + this._id;
 });
 
 // Export model.

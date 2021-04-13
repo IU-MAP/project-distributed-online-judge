@@ -6,5 +6,7 @@ block content
 
   p Status: #{solution.status}
 
-  p Problem:
+  p Problem: 
     a(href=solution.problem.url) #{solution.problem.title}
+  p File: 
+    a(href=solution.file) download
