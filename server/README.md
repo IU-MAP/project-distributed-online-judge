@@ -8,6 +8,7 @@ To get this project up and running locally on your computer:
 1. Once you have node setup, enter the following commands in the root of your clone of this repo:
    ```
    npm install
+   mkdir public/uploads
    DEBUG=express-locallibrary-tutorial:* npm run devstart   #For linux
    ```
 1. Open a browser to http://localhost:3000/ to open the site.
