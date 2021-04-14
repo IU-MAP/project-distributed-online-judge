@@ -51,6 +51,20 @@ The server hosts the platform interface to contestants along with all units rela
 - Swagger
 - JSDoc
 
+## Documentation
+
+| HTML Verb | URL | Description |
+|-----------|-----|-------------|
+| GET | /problems | Display all available problems |
+| GET | /problem/create | Show form to make new problem |
+| POST | /problems | Add new problem to database and redirect |
+| GET | /problem/:id | Show info about one problem |
+| GET | /solutions | Display all available solutions |
+| GET | /solution/create | Show form to make new solution |
+| POST | /solutions | Add new solution to database and redirect |
+| GET | /solution/:id | Show info about one solution |
+
+
 ## Challenges
 
 Yet to be written.
