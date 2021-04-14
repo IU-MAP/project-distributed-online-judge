@@ -102,10 +102,7 @@ To get this project up and running locally on your computer:
 
 ### Client
 
-
-## Challenges
-
-Yet to be written.
+Client side is yet to implemented.
 
 ## Project
 
