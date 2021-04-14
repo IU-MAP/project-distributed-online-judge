@@ -2,6 +2,14 @@
 
 Distributed Online Judge is a distributed computing application for testing programs against test cases in programming competitions.
 
+Table of contents:
+- [Team members](#team-members)
+- [Why yet another online judge?](#why-yet-another-online-judge)
+- [Architecture](#architecture)
+- [Technology stack](#technology-stack)
+- [Documentation](#documentation)
+- [Challenges](#challenges)
+
 ## Team members
 
 - Khaled Ismaeel (BS18-SB)
@@ -53,16 +61,46 @@ The server hosts the platform interface to contestants along with all units rela
 
 ## Documentation
 
+### Server
+
+#### Setup
+
+To get this project up and running locally on your computer:
+
+1. Set up a [Nodejs](https://wiki.developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/development_environment) development environment.
+1. Once you have node setup, enter the following commands in the root of your clone of this repo:
+   ```
+   #Go to server directory
+   cd server
+
+   #Install dependencies
+   npm install
+
+   #Create directory to save uploaded files
+   mkdir public/uploads
+
+   #Start development server 
+   DEBUG=distributed-online-judge:* npm run devstart
+   ```
+1. Open a browser to http://localhost:3000/ to open the site.
+
+> **Note:** The library uses a default MongoDb database hosted on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). You should use a different database for your own code experiments.
+
+#### APIs
+
 | HTML Verb | URL | Description |
 |-----------|-----|-------------|
 | GET | /problems | Display all available problems |
 | GET | /problem/create | Show form to make new problem |
-| POST | /problems | Add new problem to database and redirect |
+| POST | /problem/create | Add new problem to database and redirect |
 | GET | /problem/:id | Show info about one problem |
 | GET | /solutions | Display all available solutions |
 | GET | /solution/create | Show form to make new solution |
-| POST | /solutions | Add new solution to database and redirect |
+| POST | /solution/create | Add new solution to database and redirect |
 | GET | /solution/:id | Show info about one solution |
+
+
+### Client
 
 
 ## Challenges
