@@ -136,10 +136,19 @@ exports.solution_create_post = [
             solution.save(callback);
           },
         ],
-        function (err) {
+        async function (err) {
           if (err) {
             return next(err);
           }
+
+          // Emit event
+          const io = req.app.get("socketio");
+          const sockets = await io.fetchSockets();
+          io.to(sockets[Math.floor(Math.random() * sockets.length)].id).emit(
+            "solution:create",
+            solution
+          );
+
           // Successful - redirect to new problem record.
           res.redirect(solution.url);
         }
@@ -189,10 +198,19 @@ exports.api_solution_create_post = [
             solution.save(callback);
           },
         ],
-        function (err) {
+        async function (err) {
           if (err) {
             return res.send(500).send();
           }
+
+          // Emit event
+          const io = req.app.get("socketio");
+          const sockets = await io.fetchSockets();
+          io.to(sockets[Math.floor(Math.random() * sockets.length)].id).emit(
+            "solution:create",
+            solution
+          );
+
           // Successful - send new solution record.
           return res.json(solution);
         }

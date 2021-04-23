@@ -25,6 +25,7 @@
     "mongoose": "^5.10.7",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
+    "socket.io": "^4.0.1",
     "swagger-jsdoc": "6.0.0",
     "swagger-ui-express": "^4.1.6"
   },
