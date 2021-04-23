@@ -1,5 +1,7 @@
 # Distributed Online Judge
 
+[![Tests](https://github.com/IU-MAP/project-distributed-online-judge/actions/workflows/node.js.yml/badge.svg)](https://github.com/IU-MAP/project-distributed-online-judge/actions/workflows/node.js.yml)
+
 Distributed Online Judge is a distributed computing application for testing programs against test cases in programming competitions.
 
 Table of contents:
