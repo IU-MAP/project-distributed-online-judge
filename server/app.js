@@ -4,8 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var fileUpload = require("express-fileupload");
+var swaggerJsDoc = require("swagger-jsdoc");
+var swaggerUi = require("swagger-ui-express");
 
 var indexRouter = require("./routes/index");
+var uiRouter = require("./routes/ui");
+var apiRouter = require("./routes/api");
 
 var compression = require("compression");
 var helmet = require("helmet");
@@ -41,6 +45,23 @@ app.use(compression()); // Compress all routes
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/ui", uiRouter);
+app.use("/api", apiRouter);
+
+// Swagger
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      version: "1.0.0",
+      title: "Distributed Online System API",
+      description: "Distributed Online System API Information",
+      servers: ["http://localhost:3000/api"],
+    },
+  },
+  apis: ["./routes/*.js"],
+};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

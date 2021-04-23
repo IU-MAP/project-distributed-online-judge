@@ -1,6 +1,11 @@
 var Solution = require("../models/solution");
 var Problem = require("../models/problem");
 var async = require("async");
+var fs = require("fs");
+
+if (!fs.existsSync(`${__dirname}/../public/uploads/`)) {
+  fs.mkdirSync(`${__dirname}/../public/uploads/`);
+}
 
 const { body, validationResult } = require("express-validator");
 
@@ -17,6 +22,19 @@ exports.solution_list = function (req, res, next) {
         title: "Solution List",
         solution_list: list_solutions,
       });
+    });
+};
+
+// Get list of all Solution.
+exports.api_solution_list = function (req, res, next) {
+  Solution.find()
+    .populate("problem")
+    .exec(function (err, list_solutions) {
+      if (err) {
+        res.status(500).end();
+      }
+      // Successful, so send
+      res.json(list_solutions);
     });
 };
 
@@ -39,6 +57,22 @@ exports.solution_detail = function (req, res, next) {
         title: "Solution Detail",
         solution: solution,
       });
+    });
+};
+
+// Get detail page for a specific Solution.
+exports.api_solution_detail = function (req, res, next) {
+  Solution.findById(req.params.id)
+    .populate("problem")
+    .exec(function (err, solution) {
+      if (err) {
+        return res.status(500).end();
+      }
+      if (solution == null) {
+        return res.status(404).end();
+      }
+      // Successful, so send.
+      res.json(solution);
     });
 };
 
@@ -108,6 +142,59 @@ exports.solution_create_post = [
           }
           // Successful - redirect to new problem record.
           res.redirect(solution.url);
+        }
+      );
+    }
+  },
+];
+
+// Handle Solution create on POST (api).
+exports.api_solution_create_post = [
+  // Validate and santise the name field.
+  body("problem", "Problem must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    console.log(errors);
+
+    // Create a solution object with escaped and trimmed data.
+    var solution = new Solution({ problem: req.body.problem });
+
+    if (!errors.isEmpty() || !req.files || !req.files.file) {
+      // There are errors. Render form again with sanitized values/error messages.
+
+      Problem.find({}, "title").exec(function (err, list_problems) {
+        if (err) {
+          return res.status(500).end();
+        }
+        return res.status(400).json(errors);
+      });
+      return;
+    } else {
+      // Data from form is valid. Save solution.
+      async.parallel(
+        [
+          function (callback) {
+            req.files.file.mv(
+              `${__dirname}/../public/uploads/${solution._id}`,
+              callback
+            );
+          },
+          function (callback) {
+            solution.save(callback);
+          },
+        ],
+        function (err) {
+          if (err) {
+            return res.send(500).send();
+          }
+          // Successful - send new solution record.
+          return res.json(solution);
         }
       );
     }

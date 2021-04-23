@@ -15,7 +15,7 @@ var SolutionSchema = new Schema({
 
 // Virtual for this Solution object's URL.
 SolutionSchema.virtual("url").get(function () {
-  return "/solution/" + this._id;
+  return "/ui/solution/" + this._id;
 });
 
 // Virtual for this Solution file's URL.

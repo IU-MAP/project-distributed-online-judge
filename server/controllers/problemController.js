@@ -20,6 +20,18 @@ exports.problem_list = function (req, res, next) {
   });
 };
 
+// Get list of all problems.
+exports.api_problem_list = function (req, res, next) {
+  Problem.find().exec(function (err, list_problems) {
+    if (err) {
+      res.status(500).end();
+    } else {
+      // Successful, so send json
+      res.json(list_problems);
+    }
+  });
+};
+
 // Display detail page for a specific problem.
 exports.problem_detail = function (req, res, next) {
   async.parallel(
@@ -47,6 +59,30 @@ exports.problem_detail = function (req, res, next) {
         problem: results.problem,
         problem_solutions: results.problem_solution,
       });
+    }
+  );
+};
+
+// Get detail a specific problem.
+exports.api_problem_detail = function (req, res, next) {
+  async.parallel(
+    {
+      problem: function (callback) {
+        Problem.findById(req.params.id).exec(callback);
+      },
+      problem_solution: function (callback) {
+        Solution.find({ problem: req.params.id }).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        res.status(500).send();
+      }
+      if (results.problem == null) {
+        res.status(404).end();
+      }
+      // Successful, so send results
+      res.json({...results.problem._doc, solution: results.problem_solution});
     }
   );
 };
@@ -97,6 +133,45 @@ exports.problem_create_post = [
         }
         // Successful - redirect to new problem record.
         res.redirect(problem.url);
+      });
+    }
+  },
+];
+
+// Handle problem create on POST (api).
+exports.api_problem_create_post = [
+  // Validate and sanitize fields.
+  body("title", "Title must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("detail", "Detail must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a Problem object with escaped and trimmed data.
+    var problem = new Problem({
+      title: req.body.title,
+      detail: req.body.detail,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Send verror messages.
+      res.status(400).json(errors.array());
+    } else {
+      // Data from form is valid. Save problem.
+      problem.save(function (err) {
+        if (err) {
+          res.status(500).send();
+        }
+        // Successful - send new problem record.
+        res.json(problem);
       });
     }
   },
