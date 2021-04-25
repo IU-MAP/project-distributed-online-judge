@@ -1,6 +1,16 @@
 # Distributed Online Judge
 
+[![Tests](https://github.com/IU-MAP/project-distributed-online-judge/actions/workflows/node.js.yml/badge.svg)](https://github.com/IU-MAP/project-distributed-online-judge/actions/workflows/node.js.yml)
+
 Distributed Online Judge is a distributed computing application for testing programs against test cases in programming competitions.
+
+Table of contents:
+- [Team members](#team-members)
+- [Why yet another online judge?](#why-yet-another-online-judge)
+- [Architecture](#architecture)
+- [Technology stack](#technology-stack)
+- [Documentation](#documentation)
+- [Challenges](#challenges)
 
 ## Team members
 
@@ -26,7 +36,7 @@ The application cluster consists of 2 types of network nodes:
 
 The server hosts the platform interface to contestants along with all units related to solution testing (test cases, checker, validator, interactor, etc). When the server accepts a solution from a user, it forwards this solution along with testing units (which could be cached) to a volunteer. The client performs the testing protocol and reports the results back to the server, which in turn reports the result back to the contestant. All communication channels (contestant-server, server-volunteer) are to be implemented on top of HTTPS.
 
-![Test Image 1](images/structure.PNG)
+![Structure image](images/structure.png)
 
 ## Technology stack
 
@@ -51,9 +61,50 @@ The server hosts the platform interface to contestants along with all units rela
 - Swagger
 - JSDoc
 
-## Challenges
+## Documentation
 
-Yet to be written.
+### Server
+
+#### Setup
+
+To get this project up and running locally on your computer:
+
+1. Set up a [Nodejs](https://wiki.developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/development_environment) development environment.
+1. Once you have node setup, enter the following commands in the root of your clone of this repo:
+   ```
+   #Go to server directory
+   cd server
+
+   #Install dependencies
+   npm install
+
+   #Create directory to save uploaded files
+   mkdir public/uploads
+
+   #Start development server 
+   DEBUG=distributed-online-judge:* npm run devstart
+   ```
+1. Open a browser to http://localhost:3000/ to open the site.
+
+> **Note:** The library uses a default MongoDb database hosted on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). You should use a different database for your own code experiments.
+
+#### APIs
+
+| HTML Verb | URL | Description |
+|-----------|-----|-------------|
+| GET | /problems | Display all available problems |
+| GET | /problem/create | Show form to make new problem |
+| POST | /problem/create | Add new problem to database and redirect |
+| GET | /problem/:id | Show info about one problem |
+| GET | /solutions | Display all available solutions |
+| GET | /solution/create | Show form to make new solution |
+| POST | /solution/create | Add new solution to database and redirect |
+| GET | /solution/:id | Show info about one solution |
+
+
+### Client
+
+Client side is yet to implemented.
 
 ## Project
 
