@@ -6,7 +6,7 @@ var problem_controller = require("../controllers/problemController");
 var solution_controller = require("../controllers/solutionController");
 
 /**
- * @swagger 
+ * @swagger
  * tags:
  *    name: Online-Judge
  *    description: Online Judge for creating problems and judging solutions
@@ -19,7 +19,7 @@ var solution_controller = require("../controllers/solutionController");
  *       tags: [Online-Judge]
  *       summary: Create a new Problem
  *       description: Send JSON object to database
- * 
+ *
  *       parameters:
  *        - in: Name of Problem
  *          name: title
@@ -29,7 +29,7 @@ var solution_controller = require("../controllers/solutionController");
  *          required: true
  *       responses:
  *         201:
- *           description: The problem created successfully 
+ *           description: The problem created successfully
  *           content:
  *             application/json:
  *               schema:
@@ -47,11 +47,11 @@ var solution_controller = require("../controllers/solutionController");
  *                     type: string
  *                     description: The problem's detail.
  *                     example: print hello world
- *      
+ *
  *         500:
  *           description: Some server error
  */
-router.post("/problem/create", problem_controller.api_problem_create_post);
+router.post("/problems", problem_controller.api_problem_create_post);
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ router.post("/problem/create", problem_controller.api_problem_create_post);
  *      - in: path
  *        name: id
  *        required: true
- *        schema: 
+ *        schema:
  *          type: integer
  *     summary: Retrieve a problem with specific id.
  *     description: Retrieve a problem with specific id.
@@ -94,7 +94,7 @@ router.post("/problem/create", problem_controller.api_problem_create_post);
  *                          status:
  *                            type: string
  *                            description: The solution status
- *                            example: One of these verdicts ["submitted", "ok", "failed", "running"] 
+ *                            example: One of these verdicts ["submitted", "ok", "failed", "running"]
  *                          _id:
  *                            type: string
  *                            description: The solution ID.
@@ -139,7 +139,7 @@ router.get("/problems/:id", problem_controller.api_problem_detail);
  *                     type: string
  *                     description: The problem's detail.
  *                     example: print hello world
- *      
+ *
  *       404:
  *         description: List of Problems Not Found
  */
@@ -154,7 +154,7 @@ router.get("/problems", problem_controller.api_problem_list);
  *       tags: [Online-Judge]
  *       summary: Create a new Solution
  *       description: Send JSON object to database
- * 
+ *
  *       parameters:
  *        - in: Problem
  *          name: problem-id
@@ -165,7 +165,7 @@ router.get("/problems", problem_controller.api_problem_list);
  *          type: file
  *       responses:
  *         201:
- *           description: The solution created successfully 
+ *           description: The solution created successfully
  *           content:
  *             application/json:
  *               schema:
@@ -174,7 +174,7 @@ router.get("/problems", problem_controller.api_problem_list);
  *                   status:
  *                     type: string
  *                     description: The solution status
- *                     example: One of these verdicts ["submitted", "ok", "failed", "running"] 
+ *                     example: One of these verdicts ["submitted", "ok", "failed", "running"]
  *                   _id:
  *                     type: string
  *                     description: The solution ID.
@@ -183,11 +183,11 @@ router.get("/problems", problem_controller.api_problem_list);
  *                     type: object
  *                     description: The belonging problem
  *                     example:  { "_id": "6082d2b2f5391c900d9a2560", "title": "easy", "detail": "print hello world"}
- *      
+ *
  *         500:
  *           description: Some server error
  */
-router.post("/solution/create", solution_controller.api_solution_create_post);
+router.post("/solutions", solution_controller.api_solution_create_post);
 
 /**
  * @swagger
@@ -198,7 +198,7 @@ router.post("/solution/create", solution_controller.api_solution_create_post);
  *      - in: path
  *        name: id
  *        required: true
- *        schema: 
+ *        schema:
  *          type: integer
  *     summary: Retrieve a solution with specific id.
  *     description: Retrieve a solution with specific id.
@@ -213,7 +213,7 @@ router.post("/solution/create", solution_controller.api_solution_create_post);
  *                   status:
  *                     type: string
  *                     description: The solution status
- *                     example: One of these verdicts ["submitted", "ok", "failed", "running"] 
+ *                     example: One of these verdicts ["submitted", "ok", "failed", "running"]
  *                   _id:
  *                     type: string
  *                     description: The solution ID.
@@ -247,7 +247,7 @@ router.get("/solutions/:id", solution_controller.api_solution_detail);
  *                   status:
  *                     type: string
  *                     description: The solution status
- *                     example: One of these verdicts ["submitted", "ok", "failed", "running"] 
+ *                     example: One of these verdicts ["submitted", "ok", "failed", "running"]
  *                   _id:
  *                     type: string
  *                     description: The solution ID.
