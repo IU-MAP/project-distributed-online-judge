@@ -191,10 +191,10 @@ exports.api_solution_create_post = [
         ],
         function (err) {
           if (err) {
-            return res.send(500).send();
+            return res.status(500).send();
           }
           // Successful - send new solution record.
-          return res.json(solution);
+          return res.status(201).json(solution);
         }
       );
     }
