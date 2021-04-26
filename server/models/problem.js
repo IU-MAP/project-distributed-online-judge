@@ -9,7 +9,7 @@ var ProblemSchema = new Schema({
 
 // Virtual for this Problem instance URL.
 ProblemSchema.virtual("url").get(function () {
-  return "/ui/problem/" + this._id;
+  return "/ui/problems/" + this._id;
 });
 
 // Export model.
