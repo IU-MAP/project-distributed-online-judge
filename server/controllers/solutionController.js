@@ -200,7 +200,7 @@ exports.api_solution_create_post = [
         ],
         async function (err) {
           if (err) {
-            return res.send(500).send();
+            return res.status(500).send();
           }
 
           // Emit event
@@ -212,7 +212,7 @@ exports.api_solution_create_post = [
           );
 
           // Successful - send new solution record.
-          return res.json(solution);
+          return res.status(201).json(solution);
         }
       );
     }

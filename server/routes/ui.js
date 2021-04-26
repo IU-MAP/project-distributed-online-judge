@@ -14,7 +14,7 @@ router.get("/problem/create", problem_controller.problem_create_get);
 router.post("/problem/create", problem_controller.problem_create_post);
 
 // GET request for one Problem.
-router.get("/problem/:id", problem_controller.problem_detail);
+router.get("/problems/:id", problem_controller.problem_detail);
 
 // GET request for list of all Problem.
 router.get("/problems", problem_controller.problem_list);
@@ -28,7 +28,7 @@ router.get("/solution/create", solution_controller.solution_create_get);
 router.post("/solution/create", solution_controller.solution_create_post);
 
 // GET request for one Solution.
-router.get("/solution/:id", solution_controller.solution_detail);
+router.get("/solutions/:id", solution_controller.solution_detail);
 
 // GET request for list of all Solutions.
 router.get("/solutions", solution_controller.solution_list);
