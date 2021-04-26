@@ -67,6 +67,8 @@ The server hosts the platform interface to contestants along with all units rela
 
 #### Setup
 
+##### Run locally
+
 To get this project up and running locally on your computer:
 
 1. Set up a [Nodejs](https://wiki.developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/development_environment) development environment.
@@ -78,9 +80,6 @@ To get this project up and running locally on your computer:
    #Install dependencies
    npm install
 
-   #Create directory to save uploaded files
-   mkdir public/uploads
-
    #Start development server 
    DEBUG=distributed-online-judge:* npm run devstart
    ```
@@ -88,23 +87,60 @@ To get this project up and running locally on your computer:
 
 > **Note:** The library uses a default MongoDb database hosted on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). You should use a different database for your own code experiments.
 
+##### Run on Docker
+
+1. Make sure Docker and Docker Compose installed
+1. Enter the following commands in the root of your clone of this repo:
+   ```
+   #Go to server directory
+   cd server
+
+   #Run docker compose
+   docker-compose up
+   ```
+1. Open a browser to http://localhost/ to open the site.
+
 #### APIs
+
+Once you have the server run on your machine (locally or using Docker), APIs are documented under `/api-docs/` path using `Swagger`.
+
+![API Docs Screenshot](images/api-docs-screenshot.png)
+
+Following is the documentation for our server's frontend.
 
 | HTML Verb | URL | Description |
 |-----------|-----|-------------|
-| GET | /problems | Display all available problems |
-| GET | /problem/create | Show form to make new problem |
-| POST | /problem/create | Add new problem to database and redirect |
-| GET | /problem/:id | Show info about one problem |
-| GET | /solutions | Display all available solutions |
-| GET | /solution/create | Show form to make new solution |
-| POST | /solution/create | Add new solution to database and redirect |
-| GET | /solution/:id | Show info about one solution |
+| GET | /ui/problems | Display all available problems |
+| GET | /ui/problems/create | Show form to make new problem |
+| POST | /ui/problems/create | Add new problem to database and redirect |
+| GET | /ui/problems/:id | Show info about one problem |
+| GET | /ui/solutions | Display all available solutions |
+| GET | /ui/solutions/create | Show form to make new solution |
+| POST | /ui/solutions/create | Add new solution to database and redirect |
+| GET | /api-docs/ | Show API documentation|
 
 
 ### Client
 
-Client side is yet to implemented.
+#### Run locally
+
+To get this project up and running locally on your computer:
+
+1. Set up a [Nodejs](https://wiki.developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/development_environment) development environment.
+1. Once you have node setup, enter the following commands in the root of your clone of this repo:
+   ```
+   #Go to server directory
+   cd client
+
+   #Install dependencies
+   npm install
+
+   #Connect to server
+   npm start
+   ```
+#### Run on Docker
+
+To be set up
 
 ## Project
 
