@@ -53,6 +53,8 @@ afterAll(async (done) => {
   }
 });
 
+let problem_id_hack, solution_id_hack; // not proud of this, but I needed to get it done
+
 test("Create new problem", (done) => {
   request(app)
     .post("/api/problems")
@@ -91,6 +93,7 @@ test("Create new solution", (done) => {
       detail: "This is another test problem.",
     })
     .then((value) => {
+      problem_id_hack = value.body._id;
       request(app)
         .post("/api/solutions")
         .field("problem", value.body._id)
@@ -98,6 +101,7 @@ test("Create new solution", (done) => {
         .expect("Content-Type", /json/)
         .expect(201)
         .then((res) => {
+          solution_id_hack = res.body._id;
           assert(res.body.problem, value.body._id);
           assert(res.body.status, "submitted");
           done();
@@ -120,3 +124,32 @@ test("Get solution list", (done) => {
     })
     .catch((err) => done(err));
 });
+
+test("Get problem details", (done) => {
+  request(app)
+    .get("/api/problems/" + problem_id_hack) // test problem ID as taken from global variable
+    .expect("Content-Type", /json/)
+    .expect(200)
+    .then((res) => {
+      assert(res.body._id, problem_id_hack);
+      assert(res.body.title, "test problem");
+      assert(res.body.detail, "This is a test problem");
+      assert(res.body.solution[0]._id, solution_id_hack);
+      done()
+    })
+    .catch((err) => done(err));
+})
+
+test("Get solution details", (done) => {
+  request(app)
+    .get("/api/solutions/" + solution_id_hack) // test solution ID taken from global variable
+    .expect("Content-Type", /json/)
+    .expect(200)
+    .then((res) => {
+      assert(res.body._id, solution_id_hack);
+      assert(res.body.status, "submitted");
+      assert(res.body.problem._id, problem_id_hack);
+      done()
+    })
+    .catch((err) => done(err))
+})
