@@ -171,7 +171,7 @@ exports.api_problem_create_post = [
           res.status(500).send();
         }
         // Successful - send new problem record.
-        res.json(problem);
+        res.status(201).json(problem);
       });
     }
   },

@@ -1,5 +1,6 @@
 var request = require("supertest");
 var express = require("express");
+var assert = require("assert");
 var cookieParser = require("cookie-parser");
 var fileUpload = require("express-fileupload");
 var apiRouter = require("../routes/api");
@@ -58,14 +59,27 @@ test("Create new problem", (done) => {
     .type("form")
     .send({ title: "test problem", detail: "This is a test problem." })
     .expect("Content-Type", /json/)
-    .expect(200, done);
+    .expect(201)
+    .then((res) => {
+      assert(res.body.title, "test problem");
+      assert(res.body.detail, "This is a test problem.");
+      done();
+    })
+    .catch((err) => done(err));
 });
 
 test("Get problem list", (done) => {
   request(app)
     .get("/api/problems")
     .expect("Content-Type", /json/)
-    .expect(200, done);
+    .expect(200)
+    .then((res) => {
+      assert(res.body.length, 1);
+      assert(res.body[0].title, "test problem");
+      assert(res.body[0].detail, "This is a test problem.");
+      done();
+    })
+    .catch((err) => done(err));
 });
 
 test("Create new solution", (done) => {
@@ -82,13 +96,27 @@ test("Create new solution", (done) => {
         .field("problem", value.body._id)
         .attach("file", `${__dirname}/../app.js`)
         .expect("Content-Type", /json/)
-        .expect(200, done);
-    });
+        .expect(201)
+        .then((res) => {
+          assert(res.body.problem, value.body._id);
+          assert(res.body.status, "submitted");
+          done();
+        })
+        .catch((err) => done(err));
+    })
+    .catch((err) => done(err));
 });
 
 test("Get solution list", (done) => {
   request(app)
     .get("/api/solutions")
     .expect("Content-Type", /json/)
-    .expect(200, done);
+    .expect(200)
+    .then((res) => {
+      assert(res.body.length, 1);
+      assert(res.body[0].problem.title, "another test problem");
+      assert(res.body[0].status, "submitted");
+      done();
+    })
+    .catch((err) => done(err));
 });
