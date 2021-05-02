@@ -204,12 +204,16 @@ exports.api_solution_create_post = [
           }
 
           // Emit event
-          const io = req.app.get("socketio");
-          const sockets = await io.fetchSockets();
-          io.to(sockets[Math.floor(Math.random() * sockets.length)].id).emit(
-            "solution:create",
-            solution
-          );
+          try {
+            const io = req.app.get("socketio");
+            const sockets = await io.fetchSockets();
+            io.to(sockets[Math.floor(Math.random() * sockets.length)].id).emit(
+              "solution:create",
+              solution
+            );
+          } catch (e) {
+            console.log(e);
+          }
 
           // Successful - send new solution record.
           return res.status(201).json(solution);
