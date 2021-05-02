@@ -201,7 +201,7 @@ exports.api_solution_create_post = [
   },
 ];
 
-// Handle BookInstance update on POST.
+// Handle Solution update on PUT.
 exports.api_solution_update = [
   // Validate and sanitize fields.
   body("problem", "Problem must not be empty.")

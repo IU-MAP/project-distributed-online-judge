@@ -12,5 +12,10 @@ ProblemSchema.virtual("url").get(function () {
   return "/ui/problems/" + this._id;
 });
 
+// Virtual for this Problem file's URL.
+ProblemSchema.virtual("file").get(function () {
+  return "/uploads/" + this._id;
+});
+
 // Export model.
 module.exports = mongoose.model("Problem", ProblemSchema);
