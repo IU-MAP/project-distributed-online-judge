@@ -135,10 +135,10 @@ test("Get problem details", (done) => {
       assert(res.body.title, "test problem");
       assert(res.body.detail, "This is a test problem");
       assert(res.body.solution[0]._id, solution_id_hack);
-      done()
+      done();
     })
     .catch((err) => done(err));
-})
+});
 
 test("Get solution details", (done) => {
   request(app)
@@ -149,7 +149,27 @@ test("Get solution details", (done) => {
       assert(res.body._id, solution_id_hack);
       assert(res.body.status, "submitted");
       assert(res.body.problem._id, problem_id_hack);
-      done()
+      done();
     })
-    .catch((err) => done(err))
-})
+    .catch((err) => done(err));
+});
+
+test("Update a solution", (done) => {
+  request(app)
+    .put(`/api/solutions/${solution_id_hack}`)
+    .type("form")
+    .send({
+      problem: problem_id_hack,
+      message: "Error at line 1",
+      status: "failed",
+    })
+    .expect("Content-Type", /json/)
+    .expect(200)
+    .then((res) => {
+      assert(res.body.problem, problem_id_hack);
+      assert(res.body.message, "Error at line 1");
+      assert(res.body.status, "failed");
+      done();
+    })
+    .catch((err) => done(err));
+});

@@ -229,6 +229,44 @@ router.get("/solutions/:id", solution_controller.api_solution_detail);
 
 /**
  * @swagger
+ * /api/solutions/{id}:
+ *   put:
+ *     tags: [Online-Judge]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *     summary: Update a solution with specific id.
+ *     description: Update a solution with specific id.
+ *     responses:
+ *       200:
+ *         description: A single solution with specific id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                   status:
+ *                     type: string
+ *                     description: The solution status
+ *                     example: One of these verdicts ["submitted", "ok", "failed", "running"]
+ *                   _id:
+ *                     type: string
+ *                     description: The solution ID.
+ *                     example: 607de21470ad2a2b0b56a125
+ *                   problem:
+ *                     type: object
+ *                     description: The belonging problem
+ *                     example:  { "_id": "6082d2b2f5391c900d9a2560", "title": "easy", "detail": "print hello world"}
+ *       404:
+ *         description: Solution Not Found
+ */
+router.put("/solutions/:id", solution_controller.api_solution_update);
+
+/**
+ * @swagger
  * /api/solutions:
  *   get:
  *     tags: [Online-Judge]
