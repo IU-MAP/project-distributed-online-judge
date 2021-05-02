@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+  h1 Solution: #{solution._id}
+
+  p Status: #{solution.status}
+
+  p Problem: 
+    a(href=solution.problem.url) #{solution.problem.title}
+  p File: 
+    a(href=solution.file) download

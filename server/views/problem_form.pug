@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST' action='' enctype="multipart/form-data")
+    div.form-group
+      label(for='title') Title:
+      input#title.form-control(type='text', placeholder='Name of problem' name='title' required='true' value=(undefined===problem ? '' : problem.title))
+    div.form-group
+      label(for='detail') Detail:
+      input#detail.form-control(type='textarea', placeholder='Detail' name='detail' value=(undefined===problem ? '' : problem.detail) required='true')
+    div.form-group
+      div.custom-file
+        input#file.custom-file-input(type='file', name='file' required='true' accept='.zip')
+        label.custom-file-label(for='file') Choose file
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg
+
+  script.
+    $('#file').on('change',function(e){
+      //get the file name
+      var fileName = e.target.files[0].name;
+      //replace the "Choose a file" label
+      $(this).next('.custom-file-label').html(fileName);
+    })
