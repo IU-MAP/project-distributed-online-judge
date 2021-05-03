@@ -4,6 +4,11 @@ var Solution = require("../models/solution");
 const { body, validationResult } = require("express-validator");
 
 var async = require("async");
+var fs = require("fs");
+
+if (!fs.existsSync(`${__dirname}/../public/uploads/`)) {
+  fs.mkdirSync(`${__dirname}/../public/uploads/`);
+}
 
 // Display list of all problems.
 exports.problem_list = function (req, res, next) {
@@ -82,7 +87,7 @@ exports.api_problem_detail = function (req, res, next) {
         res.status(404).end();
       }
       // Successful, so send results
-      res.json({...results.problem._doc, solution: results.problem_solution});
+      res.json({ ...results.problem._doc, solution: results.problem_solution });
     }
   );
 };
@@ -117,7 +122,18 @@ exports.problem_create_post = [
       detail: req.body.detail,
     });
 
-    if (!errors.isEmpty()) {
+    // Check file extension
+    const validFile = (() => {
+      if (!req.files || !req.files.file) return false;
+      const filename = req.files.file.name;
+      const filenameSplitted = filename.split(".");
+      const extension = filenameSplitted[
+        filenameSplitted.length - 1
+      ].toLowerCase();
+      return extension == "zip";
+    })();
+
+    if (!errors.isEmpty() || !validFile) {
       // There are errors. Render form again with sanitized values/error messages.
       res.render("problem_form", {
         title: "Create Problem",
@@ -127,13 +143,26 @@ exports.problem_create_post = [
       return;
     } else {
       // Data from form is valid. Save problem.
-      problem.save(function (err) {
-        if (err) {
-          return next(err);
+      async.parallel(
+        [
+          function (callback) {
+            req.files.file.mv(
+              `${__dirname}/../public/uploads/${problem._id}.zip`,
+              callback
+            );
+          },
+          function (callback) {
+            problem.save(callback);
+          },
+        ],
+        function (err) {
+          if (err) {
+            return next(err);
+          }
+          // Successful - redirect to new problem record.
+          res.redirect(problem.url);
         }
-        // Successful - redirect to new problem record.
-        res.redirect(problem.url);
-      });
+      );
     }
   },
 ];
@@ -161,18 +190,43 @@ exports.api_problem_create_post = [
       detail: req.body.detail,
     });
 
-    if (!errors.isEmpty()) {
+    // Check file extension
+    const validFile = (() => {
+      if (!req.files || !req.files.file) return false;
+      return true;
+      const filename = req.files.file.name;
+      const filenameSplitted = filename.split(".");
+      const extension = filenameSplitted[
+        filenameSplitted.length - 1
+      ].toLowerCase();
+      return extension == "zip";
+    })();
+
+    if (!errors.isEmpty() || !validFile) {
       // There are errors. Send verror messages.
       res.status(400).json(errors.array());
     } else {
       // Data from form is valid. Save problem.
-      problem.save(function (err) {
-        if (err) {
-          res.status(500).send();
+      async.parallel(
+        [
+          function (callback) {
+            req.files.file.mv(
+              `${__dirname}/../public/uploads/${problem._id}.zip`,
+              callback
+            );
+          },
+          function (callback) {
+            problem.save(callback);
+          },
+        ],
+        function (err) {
+          if (err) {
+            res.status(500).send();
+          }
+          // Successful - send new problem record.
+          res.status(201).json(problem);
         }
-        // Successful - send new problem record.
-        res.status(201).json(problem);
-      });
+      );
     }
   },
 ];

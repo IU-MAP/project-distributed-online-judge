@@ -200,3 +200,53 @@ exports.api_solution_create_post = [
     }
   },
 ];
+
+// Handle Solution update on PUT.
+exports.api_solution_update = [
+  // Validate and sanitize fields.
+  body("problem", "Problem must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("message").trim().escape(),
+  body("status").trim().escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a solution object with escaped and trimmed data.
+    var solution = new Solution({
+      problem: req.body.problem,
+      message: req.body.message,
+      status: req.body.status,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages.
+      Problem.find({}, "title").exec(function (err, list_problems) {
+        if (err) {
+          return res.status(500).end();
+        }
+        return res.status(400).json(errors);
+      });
+      return;
+    } else {
+      // Data from form is valid.
+      Solution.findByIdAndUpdate(
+        req.params.id,
+        solution,
+        {},
+        function (err, thesolution) {
+          if (err) {
+            return res.status(500).end();
+          }
+          // Successful - send updated solution record.
+          res.status(200).json(solution);
+        }
+      );
+    }
+  },
+];

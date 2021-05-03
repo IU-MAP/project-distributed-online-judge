@@ -8,6 +8,7 @@ var apiRouter = require("../routes/api");
 // Mongo Testing config
 var mongoose = require("mongoose");
 var { MongoMemoryServer } = require("mongodb-memory-server");
+const problem = require("../models/problem");
 
 var mongoServer = new MongoMemoryServer();
 
@@ -53,16 +54,19 @@ afterAll(async (done) => {
   }
 });
 
-let problem_id_hack, solution_id_hack; // not proud of this, but I needed to get it done
+let problemId, solutionId; // not proud of this, but I needed to get it done
 
 test("Create new problem", (done) => {
   request(app)
     .post("/api/problems")
     .type("form")
-    .send({ title: "test problem", detail: "This is a test problem." })
+    .field("title", "test problem")
+    .field("detail", "This is a test problem.")
+    .attach("file", `${__dirname}/../app.js`)
     .expect("Content-Type", /json/)
     .expect(201)
     .then((res) => {
+      problemId = res.body._id;
       assert(res.body.title, "test problem");
       assert(res.body.detail, "This is a test problem.");
       done();
@@ -86,27 +90,16 @@ test("Get problem list", (done) => {
 
 test("Create new solution", (done) => {
   request(app)
-    .post("/api/problems")
-    .type("form")
-    .send({
-      title: "another test problem",
-      detail: "This is another test problem.",
-    })
-    .then((value) => {
-      problem_id_hack = value.body._id;
-      request(app)
-        .post("/api/solutions")
-        .field("problem", value.body._id)
-        .attach("file", `${__dirname}/../app.js`)
-        .expect("Content-Type", /json/)
-        .expect(201)
-        .then((res) => {
-          solution_id_hack = res.body._id;
-          assert(res.body.problem, value.body._id);
-          assert(res.body.status, "submitted");
-          done();
-        })
-        .catch((err) => done(err));
+    .post("/api/solutions")
+    .field("problem", problemId)
+    .attach("file", `${__dirname}/../app.js`)
+    .expect("Content-Type", /json/)
+    .expect(201)
+    .then((res) => {
+      solutionId = res.body._id;
+      assert(res.body.problem, problemId);
+      assert(res.body.status, "submitted");
+      done();
     })
     .catch((err) => done(err));
 });
@@ -118,7 +111,7 @@ test("Get solution list", (done) => {
     .expect(200)
     .then((res) => {
       assert(res.body.length, 1);
-      assert(res.body[0].problem.title, "another test problem");
+      assert(res.body[0].problem.title, "test problem");
       assert(res.body[0].status, "submitted");
       done();
     })
@@ -127,29 +120,49 @@ test("Get solution list", (done) => {
 
 test("Get problem details", (done) => {
   request(app)
-    .get("/api/problems/" + problem_id_hack) // test problem ID as taken from global variable
+    .get("/api/problems/" + problemId) // test problem ID as taken from global variable
     .expect("Content-Type", /json/)
     .expect(200)
     .then((res) => {
-      assert(res.body._id, problem_id_hack);
+      assert(res.body._id, problemId);
       assert(res.body.title, "test problem");
       assert(res.body.detail, "This is a test problem");
-      assert(res.body.solution[0]._id, solution_id_hack);
-      done()
+      assert(res.body.solution[0]._id, solutionId);
+      done();
     })
     .catch((err) => done(err));
-})
+});
 
 test("Get solution details", (done) => {
   request(app)
-    .get("/api/solutions/" + solution_id_hack) // test solution ID taken from global variable
+    .get("/api/solutions/" + solutionId) // test solution ID taken from global variable
     .expect("Content-Type", /json/)
     .expect(200)
     .then((res) => {
-      assert(res.body._id, solution_id_hack);
+      assert(res.body._id, solutionId);
       assert(res.body.status, "submitted");
-      assert(res.body.problem._id, problem_id_hack);
-      done()
+      assert(res.body.problem._id, problemId);
+      done();
     })
-    .catch((err) => done(err))
-})
+    .catch((err) => done(err));
+});
+
+test("Update a solution", (done) => {
+  request(app)
+    .put(`/api/solutions/${solutionId}`)
+    .type("form")
+    .send({
+      problem: problemId,
+      message: "Error at line 1",
+      status: "failed",
+    })
+    .expect("Content-Type", /json/)
+    .expect(200)
+    .then((res) => {
+      assert(res.body.problem, problemId);
+      assert(res.body.message, "Error at line 1");
+      assert(res.body.status, "failed");
+      done();
+    })
+    .catch((err) => done(err));
+});
