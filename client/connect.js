@@ -7,6 +7,10 @@ if (!fs.existsSync(`${__dirname}/data/`)) {
   fs.mkdirSync(`${__dirname}/data/`);
 }
 
+if (!fs.existsSync(`${__dirname}/judge/`)) {
+  fs.mkdirSync(`${__dirname}/judge/`);
+}
+
 const host = process.env.DOJ_HOST || "http://localhost:3000";
 const socket = io(host);
 
