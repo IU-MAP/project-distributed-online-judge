@@ -14,7 +14,7 @@ var solution_controller = require("../controllers/solutionController");
 
 /**
  * @swagger
- * /api/problem/create:
+ * /api/problems:
  *     post:
  *       tags: [Online-Judge]
  *       summary: Create a new Problem
