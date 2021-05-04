@@ -20,8 +20,8 @@ do
 	INPUT=judge/$2/testdata/input/$i.in
 	OUTPUT=judge/$2/testdata/output/$i.out
 	if [ -f "$INPUT" ] && [ -f "$OUTPUT" ]; then	
-		./judge/$2/solution.out < $INPUT > out
-		if ! diff -w out $OUTPUT
+		./judge/$2/solution.out < $INPUT > judge/$2/out
+		if ! diff -w judge/$2/out $OUTPUT
 		then
 			echo $i WA
 			exit
