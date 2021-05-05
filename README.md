@@ -106,6 +106,8 @@ Once you have the server run on your machine (locally or using Docker), APIs are
 
 ![API Docs Screenshot](images/api-docs-screenshot.png)
 
+![API Test Screenshot](images/test-screenshot.png)
+
 Following is the documentation for our server's frontend.
 
 | HTML Verb | URL | Description |

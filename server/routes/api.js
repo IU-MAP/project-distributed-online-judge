@@ -64,6 +64,10 @@ router.post("/problems", problem_controller.api_problem_create_post);
  *        required: true
  *        schema:
  *          type: integer
+ *      - in: Choose File
+ *        name: testdata file
+ *        required: true
+ *        type: file(.zip)
  *     summary: Retrieve a problem with specific id.
  *     description: Retrieve a problem with specific id.
  *     responses:
@@ -157,8 +161,8 @@ router.get("/problems", problem_controller.api_problem_list);
  *
  *       parameters:
  *        - in: Problem
- *          name: problem-id
- *          required: true
+ *          name: Problem
+ *          required: string
  *        - in: Choose File
  *          name: file
  *          required: true
@@ -233,11 +237,15 @@ router.get("/solutions/:id", solution_controller.api_solution_detail);
  *   put:
  *     tags: [Online-Judge]
  *     parameters:
- *      - in: path
- *        name: id
- *        required: true
- *        schema:
- *          type: integer
+ *        - in: Problem
+ *          name: Problem
+ *          required: string
+ *        - in: Message
+ *          name: Message
+ *          type: string
+ *        - in: Status
+ *          name: Status
+ *          type: string
  *     summary: Update a solution with specific id.
  *     description: Update a solution with specific id.
  *     responses:
