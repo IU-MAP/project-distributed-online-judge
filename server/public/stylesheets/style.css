@@ -1,5 +1,13 @@
 .sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
+  margin-top: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.ok {
+  color: green;
+}
+
+.failed {
+  color: brown;
 }

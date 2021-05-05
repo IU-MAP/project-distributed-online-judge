@@ -3,18 +3,23 @@ extends layout
 block content
   h1=title
 
-  form(method='POST' action='' enctype="multipart/form-data")
-    div.form-group
-      label(for='problem') Problem:
-      select#problem.form-control(type='select', placeholder='Select problem' name='problem' required='true' )
-        - problem_list.sort(function(a, b) {let textA = a.title.toUpperCase(); let textB = b.title.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
-        for problem in problem_list
-          option(value=problem._id, selected=(selected_problem==problem._id.toString() ? 'selected' : false) ) #{problem.title}
-    div.form-group
-      div.custom-file
-        input#file.custom-file-input(type='file', name='file' required='true')
-        label.custom-file-label(for='file') Choose file
-    button.btn.btn-primary(type='submit') Submit
+  if problem_list.length > 0
+    form(method='POST' action='' enctype="multipart/form-data")
+      div.form-group
+        label(for='problem') Problem:
+        select#problem.form-control(type='select', placeholder='Select problem' name='problem' required='true' )
+          - problem_list.sort(function(a, b) {let textA = a.title.toUpperCase(); let textB = b.title.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+          for problem in problem_list
+            option(value=problem._id, selected=(selected_problem==problem._id.toString() ? 'selected' : false) ) #{problem.title}
+      div.form-group
+        label(for="file") Code (C++ only): 
+        div.custom-file
+          input#file.custom-file-input(type='file', name='file' required='true' accept='.cpp')
+          label.custom-file-label(for='file') Choose file
+      button.btn.btn-primary(type='submit') Submit
+  else 
+    p No problem available. Please wait, or 
+      a(href='/ui/problem/create') create new problem.
 
   if errors 
     ul

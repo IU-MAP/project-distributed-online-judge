@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "jest",
-    "devstart": "nodemon ./bin/www",
+    "devstart": "node ./populatedb.js && nodemon ./bin/www",
     "serverstart": "DEBUG=distributed-online-judge:* npm run devstart"
   },
   "dependencies": {

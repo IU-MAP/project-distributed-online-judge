@@ -11,6 +11,7 @@ block content
       label(for='detail') Detail:
       input#detail.form-control(type='textarea', placeholder='Detail' name='detail' value=(undefined===problem ? '' : problem.detail) required='true')
     div.form-group
+      label(for="file")  Test data (zip file containing output, input folders):
       div.custom-file
         input#file.custom-file-input(type='file', name='file' required='true' accept='.zip')
         label.custom-file-label(for='file') Choose file

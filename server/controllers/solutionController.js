@@ -267,6 +267,9 @@ exports.api_solution_update = [
           }
           // Successful - send updated solution record.
           res.status(200).json(solution);
+          // Emit event
+          const io = req.app.get("socketio");
+          setTimeout(() => io.emit("solution:update", solution), 1000);
         }
       );
     }
