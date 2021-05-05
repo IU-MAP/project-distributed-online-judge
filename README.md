@@ -81,7 +81,7 @@ To get this project up and running locally on your computer:
    npm install
 
    #Start development server 
-   DEBUG=distributed-online-judge:* npm run devstart
+   npm run devstart
    ```
 1. Open a browser to http://localhost:3000/ to open the site.
 
@@ -138,7 +138,7 @@ To get this project up and running locally on your computer:
    npm install
 
    #Connect to server
-   npm start
+   npm run devstart
    ```
 #### Run on Docker
 
