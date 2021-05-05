@@ -12,10 +12,7 @@ if ! [ -d "judge/$2" ]; then
 	unzip data/$2.zip -d judge/$2
 fi	
 
-cat data/$1 > judge/$2/solution.cpp
-g++ -std=c++11 judge/$2/solution.cpp -o judge/$2/solution.out
-
-for ((i=1;;i++))
+cat data/$1 > judge/$2/solution.cpp && g++ -std=c++11 judge/$2/solution.cpp -o judge/$2/solution.out && for ((i=1;;i++))
 do
 	INPUT=judge/$2/testdata/input/$i.in
 	OUTPUT=judge/$2/testdata/output/$i.out
@@ -23,12 +20,10 @@ do
 		./judge/$2/solution.out < $INPUT > judge/$2/out
 		if ! diff -w judge/$2/out $OUTPUT
 		then
-			echo $i WA
-			exit
+			exit 1
 		fi
 	else
-		echo AC
-		exit
+		exit 0
 	fi
 done
 

@@ -19,7 +19,7 @@ socket.on("solution:create", (data) => {
   const writer = fs.createWriteStream(`data/${data._id}`);
   request(`${host}/uploads/${data._id}`).pipe(writer);
   writer.on("finish", async () => {
-    //PUT requst for changing status to "running"
+    console.log(`Running solution ${data._id}...`);
     await axios.put(`${host}/api/solutions/${data._id}`, {
       problem: data.problem,
       status: "running",
@@ -28,25 +28,17 @@ socket.on("solution:create", (data) => {
       `./checker.sh ${data._id} ${data.problem} ${host}/uploads`,
       async (err, stdout, stderr) => {
         if (err) {
+          console.log(`Solution ${data._id} failed!`);
           await axios.put(`${host}/api/solutions/${data._id}`, {
             problem: data.problem,
-            status: "submitted",
+            status: "failed",
           });
         } else {
-          //PUT requst for changing status to failed or OK
-          //stdout will echo AC if all testcases are correct, otherwise WA verdict
-          const outputs = stdout.split("\n").filter((l) => !!l.trim());
-          if (outputs[outputs.length - 1] == "AC") {
-            await axios.put(`${host}/api/solutions/${data._id}`, {
-              problem: data.problem,
-              status: "ok",
-            });
-          } else {
-            await axios.put(`${host}/api/solutions/${data._id}`, {
-              problem: data.problem,
-              status: "failed",
-            });
-          }
+          console.log(`Solution ${data._id} ok!`);
+          await axios.put(`${host}/api/solutions/${data._id}`, {
+            problem: data.problem,
+            status: "ok",
+          });
         }
       }
     );
