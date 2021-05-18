@@ -42,8 +42,9 @@ The server hosts the platform interface to contestants along with all units rela
 
 **Frontend**
 
-- React JS
-- Material UI
+- Pug
+- CSS
+- JavaScript
 
 **Backend**
 
