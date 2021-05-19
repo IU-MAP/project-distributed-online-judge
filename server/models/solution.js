@@ -11,6 +11,11 @@ var SolutionSchema = new Schema({
     enum: ["submitted", "ok", "failed", "running"],
     default: "submitted",
   },
+  time: {
+    type: Boolean,
+    required: true,
+    default: -1,
+  },
 });
 
 // Virtual for this Solution object's URL.

@@ -45,6 +45,7 @@ const runSolution = async (solutionId) => {
             await axios.put(`${host}/api/solutions/${data._id}`, {
               problem: data.problem._id,
               status: "ok",
+              time: Math.round(parseFloat(stdout)*1000),
             });
           }
         }
