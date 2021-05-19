@@ -12,7 +12,7 @@ var SolutionSchema = new Schema({
     default: "submitted",
   },
   time: {
-    type: Boolean,
+    type: Number,
     required: true,
     default: -1,
   },
