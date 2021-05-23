@@ -243,6 +243,7 @@ exports.api_solution_update = [
       problem: req.body.problem,
       message: req.body.message,
       status: req.body.status,
+      time: req.body.time,
       _id: req.params.id,
     });
 
