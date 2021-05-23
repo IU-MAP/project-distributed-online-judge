@@ -12,6 +12,9 @@ Table of contents:
 - [Documentation](#documentation)
 - [Challenges](#challenges)
 
+## Final Report
+[Final Report](http://shorturl.at/izD24)
+
 ## Team members
 
 - Khaled Ismaeel (BS18-SB)
