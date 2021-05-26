@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  ul
+    each solution in solution_list.reverse()
+      li 
+        a(href=solution.url) #{solution._id} 
+        img(src="/stylesheets/"+solution.status+".png") 
+        if solution.status == "ok"
+            b()    [#{solution.time} ms]
+        else if solution.status != "failed"
+            b() 
+            img(type="button" src="/stylesheets/donate.png") 
+
+    else
+      li There are no solutions.

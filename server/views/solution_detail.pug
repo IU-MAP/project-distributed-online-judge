@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  script(src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous") 
+
+  h1 Solution: #{solution._id}
+
+  p Status: 
+    span#status(class=solution.status)=solution.status
+
+  p Problem: 
+    a(href=solution.problem.url) #{solution.problem.title}
+
+  p File: 
+    a(href=solution.file) download
+
+  script. 
+    const socket = io();
+    const solutionId = !{JSON.stringify(solution._id)};
+    socket.on("solution:update", (data) => {
+      const {_id, status} = data;
+      if (solutionId == _id){
+        const span = document.querySelector("#status");
+        span.classList.remove(span.textContent);
+        span.textContent = status;
+        span.classList.add(status);
+      }
+    });
